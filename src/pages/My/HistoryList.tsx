@@ -1,18 +1,13 @@
+import useTxs from "../../statistics/useTxs"
 import HistoryItem from "./HistoryItem"
 import styles from "./HistoryList.module.scss"
 
-const sample = [
-  { txhash: "", type: "" },
-  { txhash: "", type: "" },
-  { txhash: "", type: "" },
-]
-
-const HistoryList = ({ type }: { type?: string }) => {
-  const list = sample
+const HistoryList = () => {
+  const { data } = useTxs()
 
   return (
     <ul className={styles.list}>
-      {list.map((item, index) => (
+      {data?.txs.map((item, index) => (
         <li className={styles.item} key={index}>
           <HistoryItem {...item} />
         </li>
