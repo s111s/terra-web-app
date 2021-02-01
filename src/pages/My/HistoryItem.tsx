@@ -1,34 +1,41 @@
 import { format as formatDate } from "date-fns"
-import { truncate } from "../../libs/text"
+import { formatAsset } from "../../libs/parse"
 import { useContractsAddress, useNetwork } from "../../hooks"
 import ExtLink from "../../components/ExtLink"
-import Badge from "../../components/Badge"
 import Icon from "../../components/Icon"
+import useParseTx from "./useParseTx"
 import styles from "./HistoryItem.module.scss"
 
 const HistoryItem = ({ txHash, type, datetime, token, data }: Tx) => {
   const { finder } = useNetwork()
   const { getSymbol } = useContractsAddress()
   const symbol = getSymbol(token)
+  const parseTx = useParseTx()
 
   return (
-    <article>
-      <header className={styles.header}>
-        <ExtLink href={finder(txHash, "tx")} className={styles.hash}>
-          {truncate(txHash, [5, 5])}
-          <Icon name="launch" size={12} />
-        </ExtLink>
+    <>
+      <article className={styles.component}>
+        <section className={styles.main}>
+          <p>
+            <span className={styles.type}>
+              {type.replace("_", " ").toLowerCase()}
+            </span>{" "}
+            {formatAsset(data.amount, symbol)}
+          </p>
 
-        {formatDate(new Date(datetime), "yyyy-MM-dd HH:mm")}
-      </header>
+          <ExtLink href={finder(txHash, "tx")} className={styles.hash}>
+            <Icon name="launch" size={16} />
+          </ExtLink>
+        </section>
 
-      <section className={styles.main}>
-        <Badge className={styles.badge}>{type}</Badge>
-        {symbol}
-      </section>
+        <footer className={styles.footer}>
+          <Icon name="calendar_today" size={16} />
+          {formatDate(new Date(datetime), "LLL dd, yyyy, HH:mm aa")}
+        </footer>
+      </article>
 
-      <p className={styles.message} />
-    </article>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </>
   )
 }
 

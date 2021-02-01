@@ -1,34 +1,32 @@
 @import "mixins";
-@import "variables";
 
-.header {
-  margin-bottom: 20px;
-}
-
-.hash {
-  @include flex(flex-start);
-  display: inline-flex;
-  color: $slate;
-  font-size: 12px;
-  font-weight: 500;
-
-  i {
-    margin-left: 5px;
-  }
-
-  &:hover {
-    text-decoration: none;
-  }
+.component {
+  @include flex(space-between);
 }
 
 .main {
   @include flex(flex-start);
 }
 
-.badge {
-  margin-right: 15px;
+.type {
+  color: $brown;
+  text-transform: capitalize;
 }
 
-.message {
-  font-size: 16px;
+.hash {
+  @include flex;
+  color: $slate;
+  margin-left: 5px;
+}
+
+.footer {
+  @include flex;
+
+  color: $slate;
+  font-size: 12px;
+  font-weight: 500;
+
+  i {
+    margin-right: 5px;
+  }
 }
