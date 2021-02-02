@@ -48,6 +48,12 @@ const TopTrading = ({ network }: { network: StatsNetwork }) => {
             yesterday: yesterday[PriceKey.ORACLE][token],
           }),
         },
+        pairdiff: {
+          price: Number(pair) - Number(oracle),
+        },
+        pairdiffpercent: {
+          price: Number(pair) / Number(oracle) - 1,
+        },
         liquidity: liquidity[token] ?? "0",
         volume: volume[token] ?? "0",
       }
@@ -127,6 +133,20 @@ const TopTrading = ({ network }: { network: StatsNetwork }) => {
                 <Change>{change}</Change>
               ),
               narrow: ["left"],
+            },
+            {
+              key: "pairdiff",
+              title: "Price Diff",
+              render: ({ price }) => gt(price, 0) && `${format(price)} ${UST}`,
+              align: "right",
+              narrow: ["right"],
+            },
+            {
+              key: "pairdiffpercent",
+              title: "Diff %",
+              render: ({ price }) => <Change>{price}</Change>,
+              align: "right",
+              narrow: ["right"],
             },
           ]}
           dataSource={dataSource}
